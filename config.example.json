@@ -71,7 +71,7 @@
     "rotateIntervalSeconds": 30,
     "buttons": [
       { "label": "Try Claude", "url": "https://claude.ai" },
-      { "label": "Get this presence", "url": "https://github.com/TheUnknownMurda/claude-discord-presence" }
+      { "label": "Get This Presence", "url": "https://github.com/TheUnknownMurda/claude-discord-presence" }
     ]
   }
 }

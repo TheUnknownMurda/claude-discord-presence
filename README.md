@@ -31,7 +31,7 @@ a live timer, rotating status messages, and clickable buttons.
 │  │ 🟣🟠 │  Opus 4.8 · Actively chatting       │   ← model · status (state)
 │  │  ◔   │  for 00:42:17                       │   ← live session timer
 │  └──────┘                                    │
-│   [ Try Claude ]  [ Get this presence ]      │   ← up to two buttons
+│   [ Try Claude ]  [ Get This Presence ]      │   ← up to two buttons
 └────────────────────────────────────────────┘
 ```
 
@@ -83,7 +83,7 @@ games, etc. — just pointed at Claude.
   sitting open. ([details ↓](#active-vs-idle-detection))
 - ⏸️ **Pause anytime** — `claude-presence pause` hides the status without stopping the helper.
 - ♻️ **Live config reload** — edit `config.json` and the running helper picks it up.
-- 🔘 **Buttons** — up to two clickable links (e.g. *Try Claude*, *Get this presence*).
+- 🔘 **Buttons** — up to two clickable links (e.g. *Try Claude*, *Get This Presence*).
 - 🪄 **Zero Discord setup** — a shared Discord app is **built in**, so installers never touch the
   Developer Portal. (Power users can still bring their own. [details ↓](#using-your-own-discord-app-optional))
 - 🔒 **Single instance, guaranteed** — a PID lock means **only one** helper can ever run.

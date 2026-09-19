@@ -161,7 +161,7 @@ const DEFAULT_CONFIG = {
     // Up to 2 buttons (Discord limit). URLs must be http(s).
     buttons: [
       { label: 'Try Claude', url: 'https://claude.ai' },
-      { label: 'Get this presence', url: 'https://github.com/TheUnknownMurda/claude-discord-presence' },
+      { label: 'Get This Presence', url: 'https://github.com/TheUnknownMurda/claude-discord-presence' },
     ],
   },
 };
@@ -200,13 +200,13 @@ function withTheme(user) {
 const LEGACY_REPO_RE = /^https:\/\/github\.com\/HeavenDCS\/claude-discord-presence\b/i;
 const REPO_URL = 'https://github.com/TheUnknownMurda/claude-discord-presence';
 const REPO_URL_RE = /^https:\/\/github\.com\/(?:HeavenDCS|TheUnknownMurda)\/claude-discord-presence\b/i;
-const LEGACY_BUTTON_LABEL = 'Get this plugin';
-const BUTTON_LABEL = 'Get this presence';
+const LEGACY_BUTTON_LABELS = ['Get this plugin', 'Get this presence']; // earlier defaults
+const BUTTON_LABEL = 'Get This Presence';
 
 function isLegacyButton(x) {
   if (!x || typeof x !== 'object') return false;
   const url = String(x.url || '');
-  return LEGACY_REPO_RE.test(url) || (REPO_URL_RE.test(url) && x.label === LEGACY_BUTTON_LABEL);
+  return LEGACY_REPO_RE.test(url) || (REPO_URL_RE.test(url) && LEGACY_BUTTON_LABELS.includes(x.label));
 }
 
 /** Rewrites values earlier builds wrote that no longer point anywhere useful. */
@@ -217,7 +217,7 @@ function migrateLegacy(user) {
   out.presence.buttons = out.presence.buttons.map((x) => {
     if (!isLegacyButton(x)) return x;
     const url = String(x.url).replace(LEGACY_REPO_RE, REPO_URL);
-    return { ...x, url, label: x.label === LEGACY_BUTTON_LABEL ? BUTTON_LABEL : x.label };
+    return { ...x, url, label: LEGACY_BUTTON_LABELS.includes(x.label) ? BUTTON_LABEL : x.label };
   });
   return out;
 }

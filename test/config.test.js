@@ -42,7 +42,7 @@ test('migrateLegacy repoints and renames the old default button, leaving everyth
   const out = config.migrateLegacy(user);
   assert.deepStrictEqual(out.presence.buttons[0], { label: 'Try Claude', url: 'https://claude.ai' });
   assert.deepStrictEqual(out.presence.buttons[1], {
-    label: 'Get this presence', url: 'https://github.com/TheUnknownMurda/claude-discord-presence',
+    label: 'Get This Presence', url: 'https://github.com/TheUnknownMurda/claude-discord-presence',
   });
   assert.strictEqual(user.presence.buttons[1].url, 'https://github.com/HeavenDCS/claude-discord-presence'); // input untouched
 
@@ -52,12 +52,12 @@ test('migrateLegacy repoints and renames the old default button, leaving everyth
     { label: 'My fork', url: 'https://github.com/HeavenDCS/claude-discord-presence/tree/x' },
   ] } };
   const m = config.migrateLegacy(mixed);
-  assert.strictEqual(m.presence.buttons[0].label, 'Get this presence');
+  assert.strictEqual(m.presence.buttons[0].label, 'Get This Presence');
   assert.deepStrictEqual(m.presence.buttons[1], {
     label: 'My fork', url: 'https://github.com/TheUnknownMurda/claude-discord-presence/tree/x',
   });
 
   const clean = { presence: { buttons: [{ label: 'x', url: 'https://example.com' }] } };
   assert.strictEqual(config.migrateLegacy(clean), clean); // nothing to do → same object
-  assert.strictEqual(config.withTheme(user).presence.buttons[1].label, 'Get this presence');
+  assert.strictEqual(config.withTheme(user).presence.buttons[1].label, 'Get This Presence');
 });

@@ -11,7 +11,7 @@ guessing from file timestamps, and the numbers it shows are the real ones.
 This version is maintained by **TheUnknownMurda** as an optimised fork of
 **[HeavenDCS](https://github.com/HeavenDCS)**'s original project; everything below
 1.2.0 in this file is their work. The default "Get this plugin" button is now
-"Get this presence" and points at the fork; existing configs are migrated on load.
+"Get This Presence" and points at the fork; existing configs are migrated on load.
 
 ### Added
 - **Live session registry.** Claude Code keeps one small JSON per running session in
