@@ -1,0 +1,77 @@
+{
+  "//": "REFERENCE copy of every setting with its default value.",
+  "//clientId": "Leave EMPTY to use the shared Discord app baked into this build (zero setup — the normal case). Only set this to override with your OWN Discord Application ID (digits only). `claude-presence setup` can do it for you.",
+  "clientId": "",
+
+  "//detection": "How and how often Claude is detected.",
+  "pollIntervalSeconds": 15,
+  "claudeProcessNames": ["Claude.exe", "Claude"],
+  "detectActiveWindow": false,
+
+  "//activity": "Tells 'actually using Claude' apart from 'Claude is just open': Claude Code's session registry says when a session is busy, otherwise how recently Claude wrote to its own session/storage files (mtimes only, never contents). Falls back to 'active' when it can't tell. hideWhenIdle clears the presence entirely while idle; pauseStatsWhenIdle only counts time you're really active. detectClaudeCode counts a live Claude Code session as 'in use' even with no app window.",
+  "activity": {
+    "detect": true,
+    "idleAfterSeconds": 300,
+    "hideWhenIdle": false,
+    "pauseStatsWhenIdle": false,
+    "detectClaudeCode": true,
+    "claudeCodeWindowSeconds": 120
+  },
+
+  "//behaviour": "'clear' keeps the helper alive and hides presence on close; 'exit' shuts it down.",
+  "onClaudeClose": "clear",
+  "logLevel": "info",
+  "showTimer": true,
+
+  "//model": "Which model to show. The app doesn't expose this reliably, so 'label' is the dependable source; 'detect' is best-effort and may be blank.",
+  "model": {
+    "show": true,
+    "label": "Opus 4.8",
+    "detect": true
+  },
+
+  "//usage": "The desktop app is a flat subscription (no per-message $), so we show your plan name + real local time instead of a misleading dollar figure. showLimits adds the plan's REAL 5-hour / 7-day usage meters (read from the desktop app's plan-usage-history.json, only while fresh). Set showOnCard:true to also put the plan on the always-visible second line (Model · Plan), not just the hover tooltip.",
+  "usage": {
+    "show": true,
+    "planLabel": "Claude",
+    "showToday": true,
+    "showMonth": true,
+    "showLimits": true,
+    "showOnCard": false
+  },
+
+  "//project": "Details of the Claude Code session that is open, for {project} {branch} {title} {messages} {tokens}. label pins a project name instead of detecting one.",
+  "project": {
+    "show": true,
+    "detect": true,
+    "label": ""
+  },
+
+  "//theme": "A built-in look to start from: default | minimal | coder | stats | chill. Anything set explicitly in this file still wins.",
+  "theme": "default",
+
+  "//presence": "How the status looks. Every text field may use {placeholders}: {model} {plan} {project} {branch} {title} {messages} {tokens} {sessions} {status} {session} {idle} {today} {month} {total} {streak} {usage5h} {usage7d} {time}. Image values must be art-asset KEYS uploaded to the Discord app being used (a raw https URL does not render). Leave an image empty to show none.",
+  "presence": {
+    "activeType": 0,
+    "largeImage": "claude",
+    "largeText": "Claude",
+    "smallImageActive": "",
+    "smallImageIdle": "",
+    "smallTextActive": "Active",
+    "smallTextIdle": "Idle",
+    "details": "Chatting with Claude",
+    "stateActive": "Actively in a conversation",
+    "stateIdle": "Claude is open",
+    "rotateMessages": [
+      "Asking Claude the big questions",
+      "Pair-programming with Claude",
+      "Brainstorming with Claude",
+      "Refactoring with a friend"
+    ],
+    "rotateIntervalSeconds": 30,
+    "buttons": [
+      { "label": "Try Claude", "url": "https://claude.ai" },
+      { "label": "Get this plugin", "url": "https://github.com/TheUnknownMurda/claude-discord-presence" }
+    ]
+  }
+}

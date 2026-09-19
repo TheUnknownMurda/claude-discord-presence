@@ -1,0 +1,56 @@
+{
+  "name": "claude-discord-presence",
+  "version": "1.2.0",
+  "description": "Show your Claude Desktop App usage as Discord Rich Presence. Zero-dependency, cross-platform, single-instance background helper.",
+  "keywords": [
+    "claude",
+    "anthropic",
+    "discord",
+    "discord-rpc",
+    "rich-presence",
+    "presence",
+    "status",
+    "desktop"
+  ],
+  "license": "MIT",
+  "author": "TheUnknownMurda",
+  "homepage": "https://github.com/TheUnknownMurda/claude-discord-presence#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheUnknownMurda/claude-discord-presence.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TheUnknownMurda/claude-discord-presence/issues"
+  },
+  "main": "src/daemon.js",
+  "bin": {
+    "claude-presence": "bin/cli.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "config.example.json",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "start": "node bin/cli.js start --foreground",
+    "stop": "node bin/cli.js stop",
+    "status": "node bin/cli.js status",
+    "doctor": "node bin/cli.js doctor",
+    "install-autostart": "node bin/cli.js install",
+    "uninstall-autostart": "node bin/cli.js uninstall",
+    "check": "node scripts/syntax-check.js",
+    "test": "cd test && node --test"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {},
+  "os": [
+    "win32",
+    "darwin",
+    "linux"
+  ]
+}
