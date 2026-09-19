@@ -8,6 +8,11 @@ All notable changes to this project are documented here. This project adheres to
 Precision release: the presence now reads Claude Code's own bookkeeping instead of
 guessing from file timestamps, and the numbers it shows are the real ones.
 
+This version is maintained by **TheUnknownMurda** as an optimised fork of
+**[HeavenDCS](https://github.com/HeavenDCS)**'s original project; everything below
+1.2.0 in this file is their work. The default "Get this plugin" button is now
+"Get this presence" and points at the fork; existing configs are migrated on load.
+
 ### Added
 - **Live session registry.** Claude Code keeps one small JSON per running session in
   `~/.claude/sessions` (PID, cwd, start time, title, `busy`/`idle`). A new `claude-sessions`
@@ -137,7 +142,7 @@ guessing from file timestamps, and the numbers it shows are the real ones.
   Developer Portal steps at all — the user-facing `clientId` defaults to empty and
   falls back to the built-in app. Creating your own Discord app is now an optional
   path (the README's setup section was rewritten accordingly).
-- Set the repository owner (now **TheUnknownMurda**) across `README.md`, `package.json`,
+- Set the repository owner to **HeavenDCS** across `README.md`, `package.json`,
   `config.example.json`, and the in-app button URLs.
 - Ship a default `claude.png` logo and point `largeImage` at its raw GitHub URL,
   so the large icon shows out of the box with no Discord art-asset upload.

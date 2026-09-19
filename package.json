@@ -14,6 +14,9 @@
   ],
   "license": "MIT",
   "author": "TheUnknownMurda",
+  "contributors": [
+    "HeavenDCS (original author)"
+  ],
   "homepage": "https://github.com/TheUnknownMurda/claude-discord-presence#readme",
   "repository": {
     "type": "git",

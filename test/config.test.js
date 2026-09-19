@@ -34,16 +34,30 @@ test('resolveClientId falls back to the built-in default (or null)', () => {
   assert.strictEqual(config.resolveClientId({ clientId: '' }), expected);
 });
 
-test('migrateLegacy repoints the old HeavenDCS button and leaves everything else alone', () => {
+test('migrateLegacy repoints and renames the old default button, leaving everything else alone', () => {
   const user = { presence: { buttons: [
     { label: 'Try Claude', url: 'https://claude.ai' },
     { label: 'Get this plugin', url: 'https://github.com/HeavenDCS/claude-discord-presence' },
   ] } };
   const out = config.migrateLegacy(user);
-  assert.strictEqual(out.presence.buttons[0].url, 'https://claude.ai');
-  assert.strictEqual(out.presence.buttons[1].url, 'https://github.com/TheUnknownMurda/claude-discord-presence');
+  assert.deepStrictEqual(out.presence.buttons[0], { label: 'Try Claude', url: 'https://claude.ai' });
+  assert.deepStrictEqual(out.presence.buttons[1], {
+    label: 'Get this presence', url: 'https://github.com/TheUnknownMurda/claude-discord-presence',
+  });
   assert.strictEqual(user.presence.buttons[1].url, 'https://github.com/HeavenDCS/claude-discord-presence'); // input untouched
+
+  // Old label on the new URL → renamed; a custom label on the old URL → only the URL moves.
+  const mixed = { presence: { buttons: [
+    { label: 'Get this plugin', url: 'https://github.com/TheUnknownMurda/claude-discord-presence' },
+    { label: 'My fork', url: 'https://github.com/HeavenDCS/claude-discord-presence/tree/x' },
+  ] } };
+  const m = config.migrateLegacy(mixed);
+  assert.strictEqual(m.presence.buttons[0].label, 'Get this presence');
+  assert.deepStrictEqual(m.presence.buttons[1], {
+    label: 'My fork', url: 'https://github.com/TheUnknownMurda/claude-discord-presence/tree/x',
+  });
+
   const clean = { presence: { buttons: [{ label: 'x', url: 'https://example.com' }] } };
   assert.strictEqual(config.migrateLegacy(clean), clean); // nothing to do → same object
-  assert.deepStrictEqual(config.withTheme(user).presence.buttons[1].url, 'https://github.com/TheUnknownMurda/claude-discord-presence');
+  assert.strictEqual(config.withTheme(user).presence.buttons[1].label, 'Get this presence');
 });

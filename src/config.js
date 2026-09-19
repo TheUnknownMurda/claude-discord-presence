@@ -161,7 +161,7 @@ const DEFAULT_CONFIG = {
     // Up to 2 buttons (Discord limit). URLs must be http(s).
     buttons: [
       { label: 'Try Claude', url: 'https://claude.ai' },
-      { label: 'Get this plugin', url: 'https://github.com/TheUnknownMurda/claude-discord-presence' },
+      { label: 'Get this presence', url: 'https://github.com/TheUnknownMurda/claude-discord-presence' },
     ],
   },
 };
@@ -193,19 +193,32 @@ function withTheme(user) {
   return deepMerge(base, migrateLegacy(user || {}));
 }
 
-// The project moved: configs written by earlier builds carry the old repo URL
-// in their "Get this plugin" button (a user file's array replaces the default
-// wholesale, so a new default alone never reaches them).
+// The project moved and its default button was renamed: configs written by
+// earlier builds carry the old repo URL and/or the old "Get this plugin" label
+// (a user file's array replaces the default wholesale, so a new default alone
+// never reaches them).
 const LEGACY_REPO_RE = /^https:\/\/github\.com\/HeavenDCS\/claude-discord-presence\b/i;
 const REPO_URL = 'https://github.com/TheUnknownMurda/claude-discord-presence';
+const REPO_URL_RE = /^https:\/\/github\.com\/(?:HeavenDCS|TheUnknownMurda)\/claude-discord-presence\b/i;
+const LEGACY_BUTTON_LABEL = 'Get this plugin';
+const BUTTON_LABEL = 'Get this presence';
+
+function isLegacyButton(x) {
+  if (!x || typeof x !== 'object') return false;
+  const url = String(x.url || '');
+  return LEGACY_REPO_RE.test(url) || (REPO_URL_RE.test(url) && x.label === LEGACY_BUTTON_LABEL);
+}
 
 /** Rewrites values earlier builds wrote that no longer point anywhere useful. */
 function migrateLegacy(user) {
   const buttons = user && user.presence && user.presence.buttons;
-  if (!Array.isArray(buttons) || !buttons.some((x) => x && LEGACY_REPO_RE.test(x.url || ''))) return user;
+  if (!Array.isArray(buttons) || !buttons.some(isLegacyButton)) return user;
   const out = JSON.parse(JSON.stringify(user));
-  out.presence.buttons = out.presence.buttons.map((x) =>
-    (x && LEGACY_REPO_RE.test(x.url || '') ? { ...x, url: x.url.replace(LEGACY_REPO_RE, REPO_URL) } : x));
+  out.presence.buttons = out.presence.buttons.map((x) => {
+    if (!isLegacyButton(x)) return x;
+    const url = String(x.url).replace(LEGACY_REPO_RE, REPO_URL);
+    return { ...x, url, label: x.label === LEGACY_BUTTON_LABEL ? BUTTON_LABEL : x.label };
+  });
   return out;
 }
 

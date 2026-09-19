@@ -7,6 +7,9 @@
 When the Claude app is open, your friends see it on your Discord profile — with a logo,
 a live timer, rotating status messages, and clickable buttons.
 
+*An optimised fork of [HeavenDCS](https://github.com/HeavenDCS)'s original **claude-discord-presence**
+— same zero-dependency helper, now fed by Claude Code's own session data for precise details.*
+
 [![CI](https://github.com/TheUnknownMurda/claude-discord-presence/actions/workflows/ci.yml/badge.svg)](https://github.com/TheUnknownMurda/claude-discord-presence/actions/workflows/ci.yml)
 [![Node](https://img.shields.io/badge/node-%3E%3D16-43853d.svg)](https://nodejs.org)
 [![Zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](#why-zero-dependencies)
@@ -28,7 +31,7 @@ a live timer, rotating status messages, and clickable buttons.
 │  │ 🟣🟠 │  Opus 4.8 · Actively chatting       │   ← model · status (state)
 │  │  ◔   │  for 00:42:17                       │   ← live session timer
 │  └──────┘                                    │
-│   [ Try Claude ]  [ Get this plugin ]        │   ← up to two buttons
+│   [ Try Claude ]  [ Get this presence ]      │   ← up to two buttons
 └────────────────────────────────────────────┘
 ```
 
@@ -80,7 +83,7 @@ games, etc. — just pointed at Claude.
   sitting open. ([details ↓](#active-vs-idle-detection))
 - ⏸️ **Pause anytime** — `claude-presence pause` hides the status without stopping the helper.
 - ♻️ **Live config reload** — edit `config.json` and the running helper picks it up.
-- 🔘 **Buttons** — up to two clickable links (e.g. *Try Claude*, *Get this plugin*).
+- 🔘 **Buttons** — up to two clickable links (e.g. *Try Claude*, *Get this presence*).
 - 🪄 **Zero Discord setup** — a shared Discord app is **built in**, so installers never touch the
   Developer Portal. (Power users can still bring their own. [details ↓](#using-your-own-discord-app-optional))
 - 🔒 **Single instance, guaranteed** — a PID lock means **only one** helper can ever run.
@@ -640,9 +643,20 @@ Bug reports and feature requests via
 
 ---
 
+## Credits
+
+- **[HeavenDCS](https://github.com/HeavenDCS)** — original author of claude-discord-presence: the
+  dependency-free Discord IPC client, the process detection, the single-instance lock, autostart,
+  the CLI and the overall design. This project would not exist without that work.
+- **[TheUnknownMurda](https://github.com/TheUnknownMurda)** — this optimised fork: live session
+  registry, real plan meters, precise prompt/token/model/branch data, the timer's true start,
+  honest active/idle detection, and the poll-loop optimisations (see [CHANGELOG](CHANGELOG.md)).
+
+---
+
 ## License
 
-[MIT](LICENSE) © 2026 TheUnknownMurda.
+[MIT](LICENSE) © 2026 HeavenDCS (original work) · TheUnknownMurda (this fork).
 
 Unofficial and not affiliated with Anthropic or Discord. "Claude" and "Discord" are trademarks of
 their respective owners, used here only to describe interoperability.
