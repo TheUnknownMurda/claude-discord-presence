@@ -190,7 +190,23 @@ function withTheme(user) {
   const name = (user && user.theme) || DEFAULT_CONFIG.theme;
   const preset = themes.get(name);
   const base = preset ? deepMerge(DEFAULT_CONFIG, preset) : DEFAULT_CONFIG;
-  return deepMerge(base, user || {});
+  return deepMerge(base, migrateLegacy(user || {}));
+}
+
+// The project moved: configs written by earlier builds carry the old repo URL
+// in their "Get this plugin" button (a user file's array replaces the default
+// wholesale, so a new default alone never reaches them).
+const LEGACY_REPO_RE = /^https:\/\/github\.com\/HeavenDCS\/claude-discord-presence\b/i;
+const REPO_URL = 'https://github.com/TheUnknownMurda/claude-discord-presence';
+
+/** Rewrites values earlier builds wrote that no longer point anywhere useful. */
+function migrateLegacy(user) {
+  const buttons = user && user.presence && user.presence.buttons;
+  if (!Array.isArray(buttons) || !buttons.some((x) => x && LEGACY_REPO_RE.test(x.url || ''))) return user;
+  const out = JSON.parse(JSON.stringify(user));
+  out.presence.buttons = out.presence.buttons.map((x) =>
+    (x && LEGACY_REPO_RE.test(x.url || '') ? { ...x, url: x.url.replace(LEGACY_REPO_RE, REPO_URL) } : x));
+  return out;
 }
 
 /** Loads config, creating it from defaults on first run. Throws on invalid JSON. */
@@ -370,6 +386,7 @@ module.exports = {
   setKey,
   validate,
   withTheme,
+  migrateLegacy,
   deepMerge,
   isClientIdPlaceholder,
   resolveClientId,

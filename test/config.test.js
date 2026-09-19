@@ -33,3 +33,17 @@ test('resolveClientId falls back to the built-in default (or null)', () => {
     : config.DEFAULT_CLIENT_ID;
   assert.strictEqual(config.resolveClientId({ clientId: '' }), expected);
 });
+
+test('migrateLegacy repoints the old HeavenDCS button and leaves everything else alone', () => {
+  const user = { presence: { buttons: [
+    { label: 'Try Claude', url: 'https://claude.ai' },
+    { label: 'Get this plugin', url: 'https://github.com/HeavenDCS/claude-discord-presence' },
+  ] } };
+  const out = config.migrateLegacy(user);
+  assert.strictEqual(out.presence.buttons[0].url, 'https://claude.ai');
+  assert.strictEqual(out.presence.buttons[1].url, 'https://github.com/TheUnknownMurda/claude-discord-presence');
+  assert.strictEqual(user.presence.buttons[1].url, 'https://github.com/HeavenDCS/claude-discord-presence'); // input untouched
+  const clean = { presence: { buttons: [{ label: 'x', url: 'https://example.com' }] } };
+  assert.strictEqual(config.migrateLegacy(clean), clean); // nothing to do → same object
+  assert.deepStrictEqual(config.withTheme(user).presence.buttons[1].url, 'https://github.com/TheUnknownMurda/claude-discord-presence');
+});
